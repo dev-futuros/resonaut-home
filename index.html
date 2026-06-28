@@ -5,15 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Resonaut</title>
 <style>
-  html, body { margin: 0; height: 100%; background: #000; }
-  video {
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+
+  /* blurred, zoomed copy fills the letterbox area */
+  .bg {
     position: fixed; inset: 0;
     width: 100%; height: 100%;
-    object-fit: contain;
+    object-fit: cover; filter: blur(40px); transform: scale(1.1);
+  }
+
+  /* main video: 16:9 box fitted to the screen, edges feathered into the bg */
+  .fg {
+    position: fixed; inset: 0; margin: auto;
+    aspect-ratio: 16 / 9;
+    max-width: 100%; max-height: 100%;
+    object-fit: cover;
+    -webkit-mask: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
   }
 </style>
 </head>
 <body>
-  <video src="assets/resonaut_landing_bg.mp4" autoplay loop muted playsinline></video>
+  <!-- ponytail: same file twice; cheap vs. a separate blurred asset -->
+  <video class="bg" src="assets/resonaut_landing_bg.mp4" autoplay loop muted playsinline></video>
+  <video class="fg" src="assets/resonaut_landing_bg.mp4" autoplay loop muted playsinline></video>
 </body>
 </html>
